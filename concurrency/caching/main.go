@@ -25,6 +25,17 @@ func NewCache(f Function) *Memory {
 	}
 }
 
+func Fibonacci(n int) int {
+	if n <= 1 {
+		return n
+	}
+	return Fibonacci(n-1) + Fibonacci(n-2)
+}
+
+func GetFibonacci(n int) (interface{}, error) {
+	return Fibonacci(n), nil
+}
+
 func (m *Memory) Get(key int) (interface{}, error) {
 	result, exist := m.cache[key]
 
