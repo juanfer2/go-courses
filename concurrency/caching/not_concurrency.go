@@ -7,21 +7,21 @@ import (
 )
 
 type Memory struct {
-	f Function
-	cache map[int]FuntionResult
+	f     Function
+	cache map[int]FunctionResult
 }
 
 type Function func(key int) (interface{}, error)
 
-type FunctionResult strtuc {
+type FunctionResult struct {
 	value interface{}
-	err error
+	err   error
 }
 
 func NewCache(f Function) *Memory {
 	return &Memory{
-		f: f,
-		cache make(map[int]FunctionResult)
+		f:     f,
+		cache: make(map[int]FunctionResult),
 	}
 }
 
@@ -48,6 +48,17 @@ func (m *Memory) Get(key int) (interface{}, error) {
 }
 
 func main() {
-	
-}
+	cache := NewCache(GetFibonacci)
+	fibo := []int{42, 40, 41, 42, 38}
 
+	for _, n := range fibo {
+		start := time.Now()
+		value, err := cache.Get(n)
+
+		if err != nil {
+			log.Println(err)
+		}
+
+		fmt.Printf("index: %d, duration: %s, value: %d\n", n, time.Since(start), value)
+	}
+}
